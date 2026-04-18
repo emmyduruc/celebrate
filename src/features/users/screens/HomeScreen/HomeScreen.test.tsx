@@ -13,29 +13,37 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
 }));
 
+const mockNavigation = { navigate: mockNavigate, goBack: jest.fn() } as never;
+const mockRoute = { params: undefined } as never;
+
+let queryClient: QueryClient;
+
 function createWrapper() {
-  const client = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
   return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={client}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
-
-const mockNavigation = {
-  navigate: mockNavigate,
-  goBack: jest.fn(),
-} as never;
-
-const mockRoute = { params: undefined } as never;
 
 describe('HomeScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, gcTime: 0 },
+      },
+    });
+  });
+
+  afterEach(async () => {
+    await act(async () => {
+      queryClient.clear();
+    });
   });
 
   it('shows the Users heading while loading', () => {
-    mockFetchSuccess(mockUsersResponse);
+    // Never-resolving fetch keeps the screen in true loading state —
+    // no async state update fires after the test ends.
+    (globalThis.fetch as jest.Mock).mockReturnValue(new Promise(() => {}));
     const { getByText } = render(
       <HomeScreen navigation={mockNavigation} route={mockRoute} />,
       { wrapper: createWrapper() },

@@ -1,6 +1,7 @@
 import { Pressable, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
 import { Text } from '@ui/Text';
+import { testIds } from '@constants/testIds';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -38,7 +39,7 @@ export function Input({
       >
         {leftIcon ? <View className="mr-2">{leftIcon}</View> : null}
         <TextInput
-          testID="input-field"
+          testID={testIds.input.field}
           className="flex-1 h-11 text-ink text-base"
           value={value}
           placeholderTextColor="#94a3b8"
@@ -46,7 +47,7 @@ export function Input({
         />
         {showClear ? (
           <Pressable
-            testID="input-clear-button"
+            testID={testIds.input.clearButton}
             onPress={onClear}
             className="ml-2 p-1"
             accessibilityLabel="Clear input"

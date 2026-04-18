@@ -3,6 +3,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { Avatar } from '@ui/Avatar';
 import { Text } from '@ui/Text';
+import { testIds } from '@constants/testIds';
 import type { User } from '../../types';
 
 interface Props {
@@ -17,7 +18,7 @@ export function UserListItem({ user,index, onPress }: Props) {
   return (
     <Animated.View entering={FadeInDown.delay(index * 30).springify()}>
       <Pressable
-        testID={`user-list-item-${user.id}`}
+        testID={testIds.userList.item(user.id)}
         className="flex-row items-center bg-white mx-4 mb-2 px-4 py-3 rounded-lg active:opacity-70"
         style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
         onPress={() => onPress(user)}

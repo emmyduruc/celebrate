@@ -1,17 +1,18 @@
 import { render } from '@testing-library/react-native';
 import { Avatar } from './Avatar';
+import { testIds } from '@constants/testIds';
 
 describe('Avatar', () => {
   it('renders an image when uri is provided', () => {
     const { getByTestId } = render(
       <Avatar uri="https://example.com/pic.png" initials="EJ" />,
     );
-    expect(getByTestId('avatar-image')).toBeTruthy();
+    expect(getByTestId(testIds.avatar.image)).toBeTruthy();
   });
 
   it('renders initials fallback when uri is not provided', () => {
     const { getByTestId, getByText } = render(<Avatar initials="EJ" />);
-    expect(getByTestId('avatar-initials')).toBeTruthy();
+    expect(getByTestId(testIds.avatar.initials)).toBeTruthy();
     expect(getByText('EJ')).toBeTruthy();
   });
 

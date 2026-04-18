@@ -1,10 +1,11 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import { Input } from './Input';
+import { testIds } from '@constants/testIds';
 
 describe('Input', () => {
   it('renders a text input', () => {
     const { getByTestId } = render(<Input value="" onChangeText={jest.fn()} />);
-    expect(getByTestId('input-field')).toBeTruthy();
+    expect(getByTestId(testIds.input.field)).toBeTruthy();
   });
 
   it('shows label when provided', () => {
@@ -18,14 +19,14 @@ describe('Input', () => {
     const { getByTestId } = render(
       <Input clearable value="hello" onChangeText={jest.fn()} onClear={jest.fn()} />,
     );
-    expect(getByTestId('input-clear-button')).toBeTruthy();
+    expect(getByTestId(testIds.input.clearButton)).toBeTruthy();
   });
 
   it('hides clear button when value is empty', () => {
     const { queryByTestId } = render(
       <Input clearable value="" onChangeText={jest.fn()} onClear={jest.fn()} />,
     );
-    expect(queryByTestId('input-clear-button')).toBeNull();
+    expect(queryByTestId(testIds.input.clearButton)).toBeNull();
   });
 
   it('calls onClear when clear button is pressed', () => {
@@ -33,7 +34,7 @@ describe('Input', () => {
     const { getByTestId } = render(
       <Input clearable value="hello" onChangeText={jest.fn()} onClear={onClear} />,
     );
-    fireEvent.press(getByTestId('input-clear-button'));
+    fireEvent.press(getByTestId(testIds.input.clearButton));
     expect(onClear).toHaveBeenCalledTimes(1);
   });
 

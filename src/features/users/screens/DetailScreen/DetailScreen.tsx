@@ -13,6 +13,7 @@ import { Card } from '@ui/Card';
 import { Button } from '@ui/Button';
 import { Skeleton } from '@ui/Skeleton';
 import { useUser } from '../../api/queries';
+import { testIds } from '@constants/testIds';
 import type { UserDetailScreenProps } from '@navigation/types';
 
 const HEADER_MAX_HEIGHT = 200;
@@ -87,12 +88,12 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   return (
     <SafeAreaView className="flex-1 bg-surface-secondary" edges={['top']}>
       <Animated.View
-        testID="detail-header"
+        testID={testIds.detail.header}
         className="bg-white px-4 flex-row items-center overflow-hidden"
         style={headerStyle}
       >
         <Pressable
-          testID="back-button"
+          testID={testIds.detail.backButton}
           onPress={() => navigation.goBack()}
           className="absolute top-4 left-4 z-10 p-2"
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -108,7 +109,7 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
           style={headerStyle}
         >
           <Animated.Image
-            testID="detail-avatar"
+            testID={testIds.detail.avatar}
             source={{ uri: isLoading ? undefined : user?.image }}
             style={avatarStyle}
           />
@@ -156,7 +157,7 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
           onScroll={scrollHandler}
           scrollEventThrottle={16}
           contentContainerStyle={{ padding: 16, paddingBottom: 48, gap: 12 }}
-          testID="detail-scroll-view"
+          testID={testIds.detail.scrollView}
         >
           <DetailSection title="Contact">
             <DetailRow label="Email" value={user.email} />

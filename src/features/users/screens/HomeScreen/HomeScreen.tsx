@@ -15,6 +15,7 @@ import { UserListItem } from '../../components/UserListItem';
 import { useUsers } from '../../api/queries';
 import type { User } from '../../types';
 import type { HomeScreenProps } from '@navigation/types';
+import { testIds } from '@constants/testIds';
 
 const SKELETON_COUNT = 8;
 
@@ -88,7 +89,7 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
           Users
         </Text>
         <Input
-          testID="search-input"
+          testID={testIds.home.searchInput}
           placeholder="Search users…"
           value={searchText}
           onChangeText={setSearchText}

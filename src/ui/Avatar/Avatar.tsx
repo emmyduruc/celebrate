@@ -1,5 +1,6 @@
 import { Image, View } from 'react-native';
 import { Text } from '@ui/Text';
+import { testIds } from '@constants/testIds';
 
 type Size = 'sm' | 'md' | 'lg';
 
@@ -15,13 +16,13 @@ const sizeConfig: Record<Size, { container: string; text: string; px: number }> 
   lg: { container: 'w-20 h-20 rounded-full', text: 'text-2xl', px: 80 },
 };
 
-export function Avatar({ uri, initials, size = 'md' }: AvatarProps) {
+export const Avatar = ({ uri, initials, size = 'md' }: AvatarProps) => {
   const config = sizeConfig[size];
 
   if (uri) {
     return (
       <Image
-        testID="avatar-image"
+        testID={testIds.avatar.image}
         source={{ uri }}
         className={config.container}
         width={config.px}
@@ -33,7 +34,7 @@ export function Avatar({ uri, initials, size = 'md' }: AvatarProps) {
 
   return (
     <View
-      testID="avatar-initials"
+      testID={testIds.avatar.initials}
       className={`${config.container} bg-primary-100 items-center justify-center`}
       accessibilityLabel={`Avatar placeholder ${initials}`}
     >

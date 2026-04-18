@@ -1,3 +1,7 @@
+import { notifyManager } from '@tanstack/react-query';
+
+notifyManager.setScheduler((cb) => cb());
+
 globalThis.fetch = jest.fn();
 
 jest.mock('react-native-reanimated', () =>
