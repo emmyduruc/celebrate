@@ -45,37 +45,33 @@ describe('HomeScreen', () => {
     // Never-resolving fetch keeps the screen in true loading state —
     // no async state update fires after the test ends.
     (globalThis.fetch as jest.Mock).mockReturnValue(new Promise(() => {}));
-    const { getByText } = render(
-      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
-      { wrapper: createWrapper() },
-    );
+    const { getByText } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />, {
+      wrapper: createWrapper(),
+    });
     expect(getByText('People')).toBeTruthy();
   });
 
   it('renders user list after successful fetch', async () => {
     mockFetchSuccess(mockUsersResponse);
-    const { findByText } = render(
-      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
-      { wrapper: createWrapper() },
-    );
+    const { findByText } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />, {
+      wrapper: createWrapper(),
+    });
     await findByText('Emily Johnson');
   });
 
   it('shows error state on fetch failure', async () => {
     (globalThis.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
-    const { findByText } = render(
-      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
-      { wrapper: createWrapper() },
-    );
+    const { findByText } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />, {
+      wrapper: createWrapper(),
+    });
     await findByText('Something went wrong');
   });
 
   it('debounces search and calls search endpoint', async () => {
     mockFetchSuccess(mockUsersResponse);
-    const { findByTestId } = render(
-      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
-      { wrapper: createWrapper() },
-    );
+    const { findByTestId } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />, {
+      wrapper: createWrapper(),
+    });
 
     const searchInput = await findByTestId(testIds.home.searchInput);
 

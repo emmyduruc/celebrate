@@ -17,7 +17,11 @@ export function DetailSection({ title, icon, children }: DetailSectionProps) {
         <View className="w-7 h-7 rounded-lg bg-primary-100 items-center justify-center mr-2.5">
           <Ionicons name={icon as never} size={15} color="#ea580c" />
         </View>
-        <Text variant="caption" weight="semibold" className="text-slate-500 uppercase tracking-widest text-xs">
+        <Text
+          variant="caption"
+          weight="semibold"
+          className="text-slate-500 uppercase tracking-widest text-xs"
+        >
           {title}
         </Text>
       </View>

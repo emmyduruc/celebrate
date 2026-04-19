@@ -1,5 +1,11 @@
 import { useMemo, useCallback } from 'react';
-import { ScrollView, View, Pressable, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Pressable,
+  type NativeSyntheticEvent,
+  type NativeScrollEvent,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
   useSharedValue,
@@ -27,10 +33,7 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   const { userId } = route.params;
   const { data: user, isLoading, isError, refetch } = useUser(userId);
   const scrollY = useSharedValue(0);
-  const detailSections = useMemo(
-    () => (user ? getDetailSections(user) : []),
-    [user],
-  );
+  const detailSections = useMemo(() => (user ? getDetailSections(user) : []), [user]);
 
   const handleScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -71,22 +74,12 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   });
 
   const nameOpacityStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      scrollY.value,
-      [0, 30, 90],
-      [1, 0.5, 0],
-      Extrapolation.CLAMP,
-    );
+    const opacity = interpolate(scrollY.value, [0, 30, 90], [1, 0.5, 0], Extrapolation.CLAMP);
     return { opacity };
   });
 
   const miniNameStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      scrollY.value,
-      [100, 120],
-      [0, 1],
-      Extrapolation.CLAMP,
-    );
+    const opacity = interpolate(scrollY.value, [100, 120], [0, 1], Extrapolation.CLAMP);
     return { opacity };
   });
 

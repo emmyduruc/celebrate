@@ -5,7 +5,7 @@ import { DetailSection } from '../DetailSection';
 describe('DetailSection', () => {
   it('renders the section title and its children', () => {
     const { getByText } = render(
-      <DetailSection title="Contact">
+      <DetailSection title="Contact" icon="mail-outline">
         <Text>child content</Text>
       </DetailSection>,
     );

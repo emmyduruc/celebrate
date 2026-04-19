@@ -13,11 +13,11 @@ interface InputProps extends TextInputProps {
   onClear?: () => void;
 }
 
- const BORDER_VARIANT = {
-    default: 'border-slate-200',
-    error: 'border-red-400',
-    focused: 'border-blue-500',
-  } as const;
+const BORDER_VARIANT = {
+  default: 'border-slate-200',
+  error: 'border-red-400',
+  focused: 'border-blue-500',
+} as const;
 
 export const Input = ({
   label,
@@ -31,24 +31,26 @@ export const Input = ({
   onFocus,
   onBlur,
   ...rest
-}: InputProps)=> {
+}: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const showClear = clearable && value && value.length > 0;
-  
-  let borderColor: typeof BORDER_VARIANT[keyof typeof BORDER_VARIANT] = BORDER_VARIANT.default;
+
+  let borderColor: (typeof BORDER_VARIANT)[keyof typeof BORDER_VARIANT] = BORDER_VARIANT.default;
   if (error) borderColor = BORDER_VARIANT.error;
   else if (isFocused) borderColor = BORDER_VARIANT.focused;
 
   return (
     <View className={`w-full items-center ${className}`}>
       {label ? (
-        <Text variant="subheading" weight="medium" className="ml-0.5 text-left w-full mb-1 text-slate-700">
+        <Text
+          variant="subheading"
+          weight="medium"
+          className="ml-0.5 text-left w-full mb-1 text-slate-700"
+        >
           {label}
         </Text>
       ) : null}
-      <View
-        className={`flex-row items-center bg-white rounded-xl px-3 h-12 border ${borderColor}`}
-      >
+      <View className={`flex-row items-center bg-white rounded-xl px-3 h-12 border ${borderColor}`}>
         {leftIcon ? <View className="mr-2 opacity-60">{leftIcon}</View> : null}
         <TextInput
           testID={testIds.input.field}
@@ -87,4 +89,4 @@ export const Input = ({
       ) : null}
     </View>
   );
-}
+};

@@ -6,26 +6,20 @@ import { testIds } from '@constants/testIds';
 
 describe('UserListItem', () => {
   it('renders full name and username', () => {
-    const { getByText } = render(
-      <UserListItem user={mockUser} onPress={jest.fn()} />,
-    );
+    const { getByText } = render(<UserListItem user={mockUser} onPress={jest.fn()} />);
     expect(getByText('Emily Johnson')).toBeTruthy();
     expect(getByText('@emilys')).toBeTruthy();
   });
 
   it('calls onPress with the user when tapped', () => {
     const onPress = jest.fn();
-    const { getByTestId } = render(
-      <UserListItem user={mockUser} onPress={onPress} />,
-    );
+    const { getByTestId } = render(<UserListItem user={mockUser} onPress={onPress} />);
     fireEvent.press(getByTestId(testIds.userList.item(mockUser.id)));
     expect(onPress).toHaveBeenCalledWith(mockUser);
   });
 
   it('has an accessibility label with the full name', () => {
-    const { getByLabelText } = render(
-      <UserListItem user={mockUser} onPress={jest.fn()} />,
-    );
+    const { getByLabelText } = render(<UserListItem user={mockUser} onPress={jest.fn()} />);
     expect(getByLabelText('View profile of Emily Johnson')).toBeTruthy();
   });
 
@@ -37,9 +31,7 @@ describe('UserListItem', () => {
   });
 
   it('applies reduced opacity when pressed', () => {
-    const { UNSAFE_getByType } = render(
-      <UserListItem user={mockUser} onPress={jest.fn()} />,
-    );
+    const { UNSAFE_getByType } = render(<UserListItem user={mockUser} onPress={jest.fn()} />);
     const pressable = UNSAFE_getByType(Pressable);
     const styleFn = pressable.props.style as (state: { pressed: boolean }) => object;
     expect(styleFn({ pressed: true })).toEqual({ opacity: 0.7 });

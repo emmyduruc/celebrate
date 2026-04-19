@@ -18,7 +18,13 @@ interface SkeletonProps {
   style?: ViewStyle;
 }
 
-export const Skeleton = ({ width, height = 16, radius = 8, className = '', style }: SkeletonProps) => {
+export const Skeleton = ({
+  width,
+  height = 16,
+  radius = 8,
+  className = '',
+  style,
+}: SkeletonProps) => {
   const opacity = useSharedValue(1);
 
   useEffect(() => {
@@ -51,7 +57,7 @@ export const Skeleton = ({ width, height = 16, radius = 8, className = '', style
       className={className}
     />
   );
-}
+};
 
 export function SkeletonUserListItem() {
   return (

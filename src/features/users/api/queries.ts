@@ -10,7 +10,7 @@ const matchesQuery = (u: User, query: string): boolean => {
     u.company.title.toLowerCase().includes(query) ||
     u.company.department.toLowerCase().includes(query)
   );
-}
+};
 
 export function useUsers(searchQuery: string) {
   const isSearching = searchQuery.trim().length > 0;
@@ -40,12 +40,9 @@ export function useUsers(searchQuery: string) {
   if (isSearching) {
     const apiResults = apiSearchQuery.data?.users ?? [];
 
-    const cachedUsers =
-      paginatedQuery.data?.pages.flatMap((page) => page.users) ?? [];
+    const cachedUsers = paginatedQuery.data?.pages.flatMap((page) => page.users) ?? [];
     const apiIds = new Set(apiResults.map((u) => u.id));
-    const localExtras = cachedUsers.filter(
-      (u) => !apiIds.has(u.id) && matchesQuery(u, q),
-    );
+    const localExtras = cachedUsers.filter((u) => !apiIds.has(u.id) && matchesQuery(u, q));
 
     return {
       users: [...apiResults, ...localExtras],

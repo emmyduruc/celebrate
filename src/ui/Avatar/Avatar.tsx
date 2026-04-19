@@ -43,4 +43,4 @@ export const Avatar = ({ uri, initials, size = 'md' }: AvatarProps) => {
       </Text>
     </View>
   );
-}
+};

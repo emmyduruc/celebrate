@@ -106,7 +106,9 @@ describe('HomeScreen — FlatList callbacks', () => {
   it('calls fetchNextPage when end is reached and hasNextPage is true', () => {
     const fetchNextPage = jest.fn();
     mockUseUsers.mockReturnValue({ ...baseState, hasNextPage: true, fetchNextPage });
-    const { UNSAFE_getByType } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />);
+    const { UNSAFE_getByType } = render(
+      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
+    );
     const flatList = UNSAFE_getByType(FlatList);
     flatList.props.onEndReached?.();
     expect(fetchNextPage).toHaveBeenCalledTimes(1);
@@ -115,7 +117,9 @@ describe('HomeScreen — FlatList callbacks', () => {
   it('does not call fetchNextPage when hasNextPage is false', () => {
     const fetchNextPage = jest.fn();
     mockUseUsers.mockReturnValue({ ...baseState, hasNextPage: false, fetchNextPage });
-    const { UNSAFE_getByType } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />);
+    const { UNSAFE_getByType } = render(
+      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
+    );
     const flatList = UNSAFE_getByType(FlatList);
     flatList.props.onEndReached?.();
     expect(fetchNextPage).not.toHaveBeenCalled();
@@ -124,7 +128,9 @@ describe('HomeScreen — FlatList callbacks', () => {
   it('calls refetch when list is pulled to refresh', () => {
     const refetch = jest.fn();
     mockUseUsers.mockReturnValue({ ...baseState, refetch });
-    const { UNSAFE_getByType } = render(<HomeScreen navigation={mockNavigation} route={mockRoute} />);
+    const { UNSAFE_getByType } = render(
+      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
+    );
     const flatList = UNSAFE_getByType(FlatList);
     flatList.props.onRefresh?.();
     expect(refetch).toHaveBeenCalledTimes(1);

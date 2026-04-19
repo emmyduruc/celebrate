@@ -26,7 +26,11 @@ export const UserListItem = memo(function UserListItem({ user, onPress }: Readon
         accessibilityRole="button"
         accessibilityLabel={`View profile of ${fullName}`}
       >
-        <Avatar uri={user.image} initials={`${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`} size="md" />
+        <Avatar
+          uri={user.image}
+          initials={`${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`}
+          size="md"
+        />
         <View className="flex-1 ml-3">
           <Text variant="body" weight="semibold" numberOfLines={1}>
             {fullName}

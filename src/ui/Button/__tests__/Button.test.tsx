@@ -22,14 +22,18 @@ describe('Button', () => {
 
   it('shows ActivityIndicator when loading=true (secondary variant)', () => {
     const { UNSAFE_getAllByType } = render(
-      <Button loading variant="secondary">Submit</Button>,
+      <Button loading variant="secondary">
+        Submit
+      </Button>,
     );
     expect(UNSAFE_getAllByType(ActivityIndicator)).toHaveLength(1);
   });
 
   it('shows ActivityIndicator when loading=true (ghost variant)', () => {
     const { UNSAFE_getAllByType } = render(
-      <Button loading variant="ghost">Submit</Button>,
+      <Button loading variant="ghost">
+        Submit
+      </Button>,
     );
     expect(UNSAFE_getAllByType(ActivityIndicator)).toHaveLength(1);
   });
@@ -50,7 +54,11 @@ describe('Button', () => {
 
   it('does not call onPress when disabled', () => {
     const onPress = jest.fn();
-    const { getByText } = render(<Button disabled onPress={onPress}>Go</Button>);
+    const { getByText } = render(
+      <Button disabled onPress={onPress}>
+        Go
+      </Button>,
+    );
     fireEvent.press(getByText('Go'));
     expect(onPress).not.toHaveBeenCalled();
   });

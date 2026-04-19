@@ -1,5 +1,5 @@
 import { render, fireEvent, act } from '@testing-library/react-native';
-import { TextInput } from 'react-native';
+import { TextInput, Text } from 'react-native';
 import { Input } from '../Input';
 import { testIds } from '@constants/testIds';
 
@@ -10,9 +10,7 @@ describe('Input', () => {
   });
 
   it('shows label when provided', () => {
-    const { getByText } = render(
-      <Input label="Search" value="" onChangeText={jest.fn()} />,
-    );
+    const { getByText } = render(<Input label="Search" value="" onChangeText={jest.fn()} />);
     expect(getByText('Search')).toBeTruthy();
   });
 
@@ -47,7 +45,6 @@ describe('Input', () => {
   });
 
   it('renders rightIcon when no value is present and clearable is false', () => {
-    const { Text } = require('react-native');
     const { getByText } = render(
       <Input value="" onChangeText={jest.fn()} rightIcon={<Text>icon</Text>} />,
     );
@@ -55,9 +52,14 @@ describe('Input', () => {
   });
 
   it('hides rightIcon when clear button is shown', () => {
-    const { Text } = require('react-native');
     const { queryByText } = render(
-      <Input clearable value="hello" onChangeText={jest.fn()} onClear={jest.fn()} rightIcon={<Text>icon</Text>} />,
+      <Input
+        clearable
+        value="hello"
+        onChangeText={jest.fn()}
+        onClear={jest.fn()}
+        rightIcon={<Text>icon</Text>}
+      />,
     );
     expect(queryByText('icon')).toBeNull();
   });
@@ -69,9 +71,13 @@ describe('Input', () => {
       <Input value="" onChangeText={jest.fn()} onFocus={onFocus} onBlur={onBlur} />,
     );
     const input = UNSAFE_getByType(TextInput);
-    act(() => { input.props.onFocus?.({ nativeEvent: {} }); });
+    act(() => {
+      input.props.onFocus?.({ nativeEvent: {} });
+    });
     expect(onFocus).toHaveBeenCalledTimes(1);
-    act(() => { input.props.onBlur?.({ nativeEvent: {} }); });
+    act(() => {
+      input.props.onBlur?.({ nativeEvent: {} });
+    });
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 });

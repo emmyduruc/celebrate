@@ -1,10 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  View,
-  Text as RNText,
-} from 'react-native';
+import { ActivityIndicator, FlatList, View, Text as RNText } from 'react-native';
 import type { ListRenderItemInfo } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDebounce } from 'use-debounce';
@@ -70,7 +65,7 @@ export function HomeScreen({ navigation }: Readonly<HomeScreenProps>) {
       return (
         <View className="py-6 items-center gap-y-1">
           <Ionicons name="checkmark-circle-outline" size={20} color="#ea580c" />
-          <RNText style={{ fontSize: 12, color: '#94a3b8' }}>You've seen everyone</RNText>
+          <RNText style={{ fontSize: 12, color: '#94a3b8' }}>You&apos;ve seen everyone</RNText>
         </View>
       );
     }

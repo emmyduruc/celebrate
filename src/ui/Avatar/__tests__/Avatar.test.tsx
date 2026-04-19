@@ -4,9 +4,7 @@ import { testIds } from '@constants/testIds';
 
 describe('Avatar', () => {
   it('renders an image when uri is provided', () => {
-    const { getByTestId } = render(
-      <Avatar uri="https://example.com/pic.png" initials="EJ" />,
-    );
+    const { getByTestId } = render(<Avatar uri="https://example.com/pic.png" initials="EJ" />);
     expect(getByTestId(testIds.avatar.image)).toBeTruthy();
   });
 

@@ -40,7 +40,10 @@ describe('getDetailSections', () => {
   it('Company section has name, department, and title', () => {
     const company = sections.find((s) => s.title === 'Company');
     expect(company?.rows).toContainEqual({ label: 'Name', value: mockUser.company.name });
-    expect(company?.rows).toContainEqual({ label: 'Department', value: mockUser.company.department });
+    expect(company?.rows).toContainEqual({
+      label: 'Department',
+      value: mockUser.company.department,
+    });
     expect(company?.rows).toContainEqual({ label: 'Title', value: mockUser.company.title });
   });
 });

@@ -13,7 +13,12 @@ export function DetailRow({ label, value }: DetailRowProps) {
       <Text variant="caption" color="secondary" className="shrink-0 w-24">
         {label}
       </Text>
-      <Text variant="caption" weight="medium" className="flex-1 text-right text-slate-700" numberOfLines={2}>
+      <Text
+        variant="caption"
+        weight="medium"
+        className="flex-1 text-right text-slate-700"
+        numberOfLines={2}
+      >
         {value}
       </Text>
     </View>
