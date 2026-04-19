@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react-native';
-import { Avatar } from './Avatar';
+import { Avatar } from '../Avatar';
 import { testIds } from '@constants/testIds';
 
 describe('Avatar', () => {

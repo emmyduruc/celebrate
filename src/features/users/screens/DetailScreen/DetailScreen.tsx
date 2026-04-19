@@ -1,38 +1,43 @@
-import { ScrollView, View, Pressable } from 'react-native';
+import { useMemo, useCallback } from 'react';
+import { ScrollView, View, Pressable, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
   useSharedValue,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
 
 import { Text } from '@ui/Text';
-import { Card } from '@ui/Card';
 import { Button } from '@ui/Button';
 import { Skeleton } from '@ui/Skeleton';
 import { useUser } from '../../api/queries';
 import { testIds } from '@constants/testIds';
 import type { UserDetailScreenProps } from '@navigation/types';
+import { DetailRow } from './DetailRow';
+import { DetailSection } from './DetailSection';
+import { getDetailSections } from './getDetailSections';
 
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 70;
 const AVATAR_MAX_SIZE = 80;
 const AVATAR_MIN_SIZE = 36;
 
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
-
 export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   const { userId } = route.params;
   const { data: user, isLoading, isError, refetch } = useUser(userId);
   const scrollY = useSharedValue(0);
+  const detailSections = useMemo(
+    () => (user ? getDetailSections(user) : []),
+    [user],
+  );
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollY.value = event.contentOffset.y;
+  const handleScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      scrollY.value = e.nativeEvent.contentOffset.y;
     },
-  });
+    [scrollY],
+  );
 
   const headerStyle = useAnimatedStyle(() => {
     const height = interpolate(
@@ -68,8 +73,8 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   const nameOpacityStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
-      [0, 40, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-      [1, 0.6, 0],
+      [0, 30, 90],
+      [1, 0.5, 0],
       Extrapolation.CLAMP,
     );
     return { opacity };
@@ -78,7 +83,7 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
   const miniNameStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
-      [HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT - 20, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+      [100, 120],
       [0, 1],
       Extrapolation.CLAMP,
     );
@@ -89,7 +94,7 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
     <SafeAreaView className="flex-1 bg-surface-secondary" edges={['top']}>
       <Animated.View
         testID={testIds.detail.header}
-        className="bg-white px-4 flex-row items-center overflow-hidden"
+        className="bg-primary-50 px-4 flex-row items-center overflow-hidden border-b border-primary-100"
         style={headerStyle}
       >
         <Pressable
@@ -99,15 +104,12 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           accessibilityLabel="Go back"
         >
-          <Text variant="body" color="default">
+          <Text variant="body" className="text-primary-600 font-semibold">
             ‹ Back
           </Text>
         </Pressable>
 
-        <Animated.View
-          className="items-center justify-center flex-1"
-          style={headerStyle}
-        >
+        <Animated.View className="items-center justify-center flex-1">
           <Animated.Image
             testID={testIds.detail.avatar}
             source={{ uri: isLoading ? undefined : user?.image }}
@@ -124,10 +126,10 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
         </Animated.View>
 
         <Animated.View
-          className="absolute bottom-4 left-0 right-0 items-center"
+          className="absolute inset-0 items-center justify-center px-16"
           style={miniNameStyle}
         >
-          <Text variant="body" weight="semibold">
+          <Text variant="subheading" weight="bold">
             {user ? `${user.firstName} ${user.lastName}` : ''}
           </Text>
         </Animated.View>
@@ -153,75 +155,22 @@ export function UserDetailScreen({ navigation, route }: UserDetailScreenProps) {
       )}
 
       {user && !isLoading && !isError && (
-        <AnimatedScrollView
-          onScroll={scrollHandler}
+        <ScrollView
+          onScroll={handleScroll}
           scrollEventThrottle={16}
-          contentContainerStyle={{ padding: 16, paddingBottom: 48, gap: 12 }}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ padding: 16, paddingBottom: 48, rowGap: 12 }}
           testID={testIds.detail.scrollView}
         >
-          <DetailSection title="Contact">
-            <DetailRow label="Email" value={user.email} />
-            <DetailRow label="Phone" value={user.phone} />
-            <DetailRow label="Username" value={`@${user.username}`} />
-          </DetailSection>
-
-          <DetailSection title="Personal">
-            <DetailRow label="Age" value={String(user.age)} />
-            <DetailRow label="Gender" value={user.gender} />
-            <DetailRow label="Blood Group" value={user.bloodGroup} />
-            <DetailRow label="Eye Color" value={user.eyeColor} />
-            <DetailRow label="Hair" value={`${user.hair.color} ${user.hair.type}`} />
-            <DetailRow label="University" value={user.university} />
-          </DetailSection>
-
-          <DetailSection title="Address">
-            <DetailRow label="Street" value={user.address.address} />
-            <DetailRow label="City" value={user.address.city} />
-            <DetailRow label="State" value={`${user.address.state} (${user.address.stateCode})`} />
-            <DetailRow label="Postal Code" value={user.address.postalCode} />
-            <DetailRow label="Country" value={user.address.country} />
-          </DetailSection>
-
-          <DetailSection title="Company">
-            <DetailRow label="Name" value={user.company.name} />
-            <DetailRow label="Department" value={user.company.department} />
-            <DetailRow label="Title" value={user.company.title} />
-          </DetailSection>
-
-          <DetailSection title="Banking">
-            <DetailRow label="Card Type" value={user.bank.cardType} />
-            <DetailRow label="Currency" value={user.bank.currency} />
-            <DetailRow
-              label="Card Number"
-              value={`**** **** **** ${user.bank.cardNumber.slice(-4)}`}
-            />
-          </DetailSection>
-        </AnimatedScrollView>
+          {detailSections.map((section) => (
+            <DetailSection key={section.title} title={section.title} icon={section.icon}>
+              {section.rows.map((row) => (
+                <DetailRow key={row.label} label={row.label} value={row.value} />
+              ))}
+            </DetailSection>
+          ))}
+        </ScrollView>
       )}
     </SafeAreaView>
-  );
-}
-
-const DetailSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
-  return (
-    <Card>
-      <Text variant="caption" weight="semibold" color="secondary" className="mb-3 uppercase tracking-wide">
-        {title}
-      </Text>
-      <View className="gap-y-2">{children}</View>
-    </Card>
-  );
-}
-
-const DetailRow = ({ label, value }: { label: string; value: string }) => {
-  return (
-    <View className="flex-row justify-between gap-x-4">
-      <Text variant="caption" color="secondary" className="shrink-0">
-        {label}
-      </Text>
-      <Text variant="caption" weight="medium" className="flex-1 text-right" numberOfLines={1}>
-        {value}
-      </Text>
-    </View>
   );
 }

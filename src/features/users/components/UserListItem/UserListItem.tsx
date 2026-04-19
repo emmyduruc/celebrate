@@ -1,5 +1,7 @@
+import { memo } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Avatar } from '@ui/Avatar';
 import { Text } from '@ui/Text';
@@ -8,18 +10,17 @@ import type { User } from '../../types';
 
 interface Props {
   user: User;
-  index: number;
   onPress: (user: User) => void;
 }
 
-export function UserListItem({ user,index, onPress }: Props) {
+export const UserListItem = memo(function UserListItem({ user, onPress }: Readonly<Props>) {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
-    <Animated.View entering={FadeInDown.delay(index * 30).springify()}>
+    <Animated.View entering={FadeInDown.duration(180)}>
       <Pressable
         testID={testIds.userList.item(user.id)}
-        className="flex-row items-center bg-white mx-4 mb-2 px-4 py-3 rounded-lg active:opacity-70"
+        className="flex-row items-center bg-white mx-4 mb-2 px-4 py-3.5 rounded-2xl"
         style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
         onPress={() => onPress(user)}
         accessibilityRole="button"
@@ -33,11 +34,16 @@ export function UserListItem({ user,index, onPress }: Props) {
           <Text variant="caption" color="secondary" numberOfLines={1}>
             @{user.username}
           </Text>
+          {user.company?.title ? (
+            <Text variant="caption" color="tertiary" numberOfLines={1} className="mt-0.5">
+              {user.company.title} · {user.company.department}
+            </Text>
+          ) : null}
         </View>
-        <Text variant="caption" color="tertiary">
-          ›
-        </Text>
+        <View className="w-6 h-6 rounded-full bg-primary-50 items-center justify-center ml-2">
+          <Ionicons name="chevron-forward" size={12} color="#ea580c" />
+        </View>
       </Pressable>
     </Animated.View>
   );
-}
+});

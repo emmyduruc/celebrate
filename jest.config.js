@@ -18,5 +18,7 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/**/__mocks__/**',
     '!src/**/index.ts',
+    '!src/**/types.ts',
+    '!src/navigation/types.ts',
   ],
 };

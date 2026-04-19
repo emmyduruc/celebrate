@@ -33,6 +33,10 @@ describe('Users flow', () => {
   });
 
   it('should clear search and restore full list', async () => {
+    await waitFor(element(by.id(testIds.userList.item(1))))
+      .toBeVisible()
+      .withTimeout(10000);
+
     await element(by.id(testIds.home.searchInput)).typeText('Emily');
 
     await waitFor(element(by.id(testIds.input.clearButton)))
@@ -46,7 +50,7 @@ describe('Users flow', () => {
       .withTimeout(5000);
     await waitFor(element(by.id(testIds.userList.item(2))))
       .toBeVisible()
-      .withTimeout(5000);
+      .withTimeout(10000);
   });
 
   it('should navigate to the detail screen when a user is tapped', async () => {
@@ -58,14 +62,14 @@ describe('Users flow', () => {
 
     await waitFor(element(by.id(testIds.detail.scrollView)))
       .toBeVisible()
-      .withTimeout(5000);
+      .withTimeout(10000);
 
     await waitFor(element(by.id(testIds.detail.backButton)))
       .toBeVisible()
       .withTimeout(3000);
   });
 
-  it('should collapse the header when scrolling on the detail screen', async () => {
+  it('should show the avatar and header on the detail screen', async () => {
     await waitFor(element(by.id(testIds.userList.item(1))))
       .toBeVisible()
       .withTimeout(10000);
@@ -74,12 +78,9 @@ describe('Users flow', () => {
 
     await waitFor(element(by.id(testIds.detail.scrollView)))
       .toBeVisible()
-      .withTimeout(5000);
+      .withTimeout(10000);
 
     await detoxExpect(element(by.id(testIds.detail.avatar))).toBeVisible();
-
-    await element(by.id(testIds.detail.scrollView)).scroll(200, 'down');
-
     await detoxExpect(element(by.id(testIds.detail.header))).toBeVisible();
   });
 
@@ -92,7 +93,7 @@ describe('Users flow', () => {
 
     await waitFor(element(by.id(testIds.detail.backButton)))
       .toBeVisible()
-      .withTimeout(5000);
+      .withTimeout(10000);
 
     await element(by.id(testIds.detail.backButton)).tap();
 

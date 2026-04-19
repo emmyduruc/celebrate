@@ -38,7 +38,7 @@ module.exports = {
     },
     emulator: {
       type: 'android.emulator',
-      device: { avdName: 'Pixel_7_API_34' },
+      device: { avdName: 'Medium_Phone_API_36.1' },
     },
   },
   configurations: {

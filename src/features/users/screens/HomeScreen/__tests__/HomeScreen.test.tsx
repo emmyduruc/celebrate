@@ -1,7 +1,8 @@
 import { render, fireEvent, act } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { HomeScreen } from './HomeScreen';
+import { HomeScreen } from '../HomeScreen';
 import { mockFetchSuccess, mockUsersResponse } from '@/__mocks__/server';
+import { testIds } from '@constants/testIds';
 
 jest.mock('use-debounce', () => ({
   useDebounce: (value: unknown) => [value],
@@ -40,7 +41,7 @@ describe('HomeScreen', () => {
     });
   });
 
-  it('shows the Users heading while loading', () => {
+  it('shows the People heading while loading', () => {
     // Never-resolving fetch keeps the screen in true loading state —
     // no async state update fires after the test ends.
     (globalThis.fetch as jest.Mock).mockReturnValue(new Promise(() => {}));
@@ -48,7 +49,7 @@ describe('HomeScreen', () => {
       <HomeScreen navigation={mockNavigation} route={mockRoute} />,
       { wrapper: createWrapper() },
     );
-    expect(getByText('Users')).toBeTruthy();
+    expect(getByText('People')).toBeTruthy();
   });
 
   it('renders user list after successful fetch', async () => {
@@ -76,7 +77,7 @@ describe('HomeScreen', () => {
       { wrapper: createWrapper() },
     );
 
-    const searchInput = await findByTestId('search-input');
+    const searchInput = await findByTestId(testIds.home.searchInput);
 
     mockFetchSuccess(mockUsersResponse);
     await act(async () => {
